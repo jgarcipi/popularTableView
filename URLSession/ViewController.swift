@@ -9,8 +9,8 @@
 import UIKit
 import FavoriteTableView
 
-class ViewController: UIViewController {
-    
+class ViewController: UIViewController, FavoriteTableViewDelegate {
+
     @IBOutlet weak var botn: UIButton!
     
     @IBOutlet weak var URLfavoritos: FavoriteTableView!
@@ -20,7 +20,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.URLfavoritos.delegateFavorite = self
         urlSession()
+//        self.URLfavoritos.configure()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,7 +41,7 @@ class ViewController: UIViewController {
             if let data = data {
                 print(data)
                 do{
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
                     let gitdata = try decoder.decode(favoritosentity.self, from : data)
                     gitdata.interbankTransferFavoriteList.forEach({ (lista) in
                         print("ALIAS",lista.alias)
@@ -61,8 +63,9 @@ class ViewController: UIViewController {
             }
         }.resume()
     }
-    func poblartableview( listadefavoritos: [String], listadenumerosdecuenta: [String]){
-       
+    
+    func didSelectRowAt(indexPath: IndexPath) {
+        print(indexPath.row)
     }
 }
 
